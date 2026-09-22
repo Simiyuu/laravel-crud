@@ -13,12 +13,9 @@ class StudentController extends Controller
         return view('students.index', compact('students'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
