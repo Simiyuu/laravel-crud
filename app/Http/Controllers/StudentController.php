@@ -18,43 +18,52 @@ class StudentController extends Controller
         return view('students.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'age' => 'required|numeric',
+            'email' => 'required|email',
+        ]);
+        $input = $request->all();
+        Students::create($input);
+        return redirect()->route('students.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return view('students.show', compact('student'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return view('students.edit', compact('student'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $student = Student::findOrFail($id);
+
+        $this->validate($requests, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'age' => 'required|numeric',
+            'email' => 'required|email',
+        ]);
+
+        $input = $request->all();
+        $student->fill($input)->save();
+
+        return redirect()->route('students.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->delete();
+        return view('students.destroy', compact('student'));
     }
 }
