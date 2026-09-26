@@ -9,7 +9,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Students::all();
+        $students = Student::all();
         return view('students.index', compact('students'));
     }
 
@@ -64,6 +64,6 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
         $student->delete();
-        return view('students.destroy', compact('student'));
+        return redirect()->route('students.index');
     }
 }
