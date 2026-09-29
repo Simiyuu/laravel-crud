@@ -1,58 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Student CRUD Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack Laravel web application that implements a complete CRUD (Create, Read, Update, Delete) system to manage student records. It connects an SQLite database to custom user interfaces using Eloquent models, RESTful controllers, and Blade template forms protected by built-in security features.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+It provides complete management of student profiles through four core capabilities:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Create** — a secure registration form with data validation and CSRF protection to register new students into the system.
+- **Read** — a centralized dashboard that uses a Blade loop to display all student records, alongside individual detailed profile pages for each student.
+- **Update** — a pre-filled modification form utilizing HTTP method spoofing (`@method('PUT')`) and smart field retention (`old()`) to safely edit existing student records.
+- **Delete** — a secure deletion mechanism using method spoofing (`@method('DELETE')`) to safely and permanently remove student records from the database.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
 
-## Learning Laravel
+- **Backend / Framework:** Laravel (PHP) managing routing, controller logic, and request validation.
+- **Database / ORM:** SQLite handles data storage, managed smoothly through Laravel's Eloquent ORM and database migrations.
+- **Frontend Template Engine:** Blade, Laravel's native templating system, utilizing inheritance layouts, security helpers (`@csrf`), and dynamic loops (`@foreach`).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## What I Learned
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The tutorial code I used was written for an older version of Laravel than the one I installed. This meant I had to work around several real Laravel version-compatibility issues.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+One of the main ones being the tutorial's validation pattern, `$this->validate($request, [...])`, no longer works in Laravel 13. Older Laravel versions included a trait on the base `Controller` class that provided this method automatically, but that trait is no longer included by default. The present approach is to call `validate()` directly on the `$request`.
 
-## Agentic Development
+I also debugged a non-crashing bug where a student's first name wasn't displaying in the index table despite being correctly saved to the database. I traced the error by checking the browser's Network tab to confirm the form was sending correct data, then querying the database directly via `php artisan tinker` to confirm the data was saved correctly, which isolated the bug to a single typo in the Blade view (`frist_name` instead of `first_name`).
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+This project deepened my understanding of Laravel's MVC architecture end to end — migrations defining database structure, Eloquent models with `$fillable` protecting against mass-assignment vulnerabilities, resource controllers mapping HTTP verbs to CRUD operations, and Blade's template inheritance system (`@extends`, `@section`, `@include`, `@yield`) for building a consistent layout across pages.
 
-```bash
-composer require laravel/boost --dev
+## Getting Started
 
-php artisan boost:install
-```
+### Prerequisites
+- PHP
+- Composer
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Installation Steps
 
-## Contributing
+1. Clone the repository
+   ```bash
+   git clone <repository-url>
+   cd laravel-crud-app
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Install dependencies
+   ```bash
+   composer install
+   ```
 
-## Code of Conduct
+3. Create the environment file
+   ```bash
+   cp .env.example .env
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Generate the application security key
+   ```bash
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+5. Create the SQLite database file
+   ```bash
+   # Windows
+   type nul > database/database.sqlite
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   # Mac/Linux
+   touch database/database.sqlite
+   ```
 
-## License
+6. Run the database migrations
+   ```bash
+   php artisan migrate
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. Start the development server
+   ```bash
+   php artisan serve
+   ```
+
+8. Visit `http://127.0.0.1:8000/students` in your browser
