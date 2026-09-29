@@ -5,9 +5,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{asset('/')}}">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="{{asset('/')}}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('students.index')}}">Students</a>
             </li>
         </ul>
     </div>
-</nav>                 
+</nav>
