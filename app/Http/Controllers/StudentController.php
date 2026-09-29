@@ -20,14 +20,14 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'age' => 'required|numeric',
             'email' => 'required|email',
         ]);
         $input = $request->all();
-        Students::create($input);
+        Student::create($input);
         return redirect()->route('students.index');
     }
 
@@ -47,7 +47,7 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
-        $this->validate($requests, [
+        $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'age' => 'required|numeric',

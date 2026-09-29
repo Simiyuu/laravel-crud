@@ -14,7 +14,7 @@
         </thead>
         @foreach($students as $student)
             <tr>
-                <td>{{$student->frist_name}}</td>
+                <td>{{$student->first_name}}</td>
                 <td>{{$student->last_name}}</td>
                 <td>{{$student->age}}</td>
                 <td>{{$student->email}}</td>
